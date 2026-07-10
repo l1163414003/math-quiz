@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>苏教版 · 三年级上册数学 核心知识点与测试</title>
+<style>
+  :root {
+    --blue: #2c3e50; --light-blue: #3498db; --green: #27ae60;
+    --orange: #e67e22; --red: #e74c3c; --purple: #8e44ad;
+    --bg: #fdf6ec; --card: #ffffff; --border: #e0d5c1;
+    --text: #2c3e50; --light-text: #7f8c8d; --accent: #fef9e7;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; padding-bottom: 60px; }
+
+  /* 顶部进度条 */
+  .progress-bar-wrap {
+    position: sticky; top: 0; z-index: 100; background: white;
+    padding: 12px 20px; box-shadow: 0 2px 10px rgba(0,0,0,.08); text-align: center;
+  }
+  .progress-bar-wrap .info { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .progress-bar-wrap .score { font-size: 1.2em; font-weight: bold; color: var(--green); }
+  .progress-bar-wrap .total { font-size: .9em; color: var(--light-text); }
+  .progress-outer { width: 100%; max-width: 500px; height: 10px; background: #eee; border-radius: 5px; margin: 8px auto 0; overflow: hidden; }
+  .progress-inner { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71); width: 0%; transition: width .4s; border-radius: 5px; }
+  .star { font-size: 1.3em; }
+
+  /* 头部 */
+  .hero { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; text-align: center; padding: 35px 20px 25px; }
+  .hero h1 { font-size: 1.8em; letter-spacing: 2px; }
+  .hero .sub { font-size: 1em; opacity: .9; margin-top: 4px; }
+
+  /* 导航 */
+  .toc { max-width: 900px; margin: 20px auto; padding: 18px 22px; background: var(--card); border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+  .toc h2 { font-size: 1.1em; color: var(--blue); margin-bottom: 8px; }
+  .toc ol { columns: 2; padding-left: 22px; font-size: .88em; }
+  .toc a { color: var(--light-blue); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* 单元 */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 18px; }
+  .unit { background: var(--card); border-radius: 14px; margin: 22px 0; box-shadow: 0 3px 15px rgba(0,0,0,.06); overflow: hidden; }
+  .unit-header { padding: 14px 20px; color: white; display: flex; align-items: center; gap: 12px; }
+  .unit-num { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.25); display: flex; align-items: center; justify-content: center; font-size: 1.2em; font-weight: bold; flex-shrink: 0; }
+  .unit-header h2 { font-size: 1.1em; }
+  .u1 { background: linear-gradient(135deg, #3498db, #2980b9); }
+  .u2 { background: linear-gradient(135deg, #e67e22, #d35400); }
+  .u3 { background: linear-gradient(135deg, #27ae60, #229954); }
+  .u4 { background: linear-gradient(135deg, #8e44ad, #7d3c98); }
+  .u5 { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+  .u6 { background: linear-gradient(135deg, #16a085, #0e8c72); }
+  .u7 { background: linear-gradient(135deg, #2c3e50, #34495e); }
+  .u8 { background: linear-gradient(135deg, #d35400, #e67e22); }
+  .unit-body { padding: 8px 18px 18px; }
+
+  /* 知识点卡片 */
+  .kp { background: #fafafa; border-left: 4px solid var(--light-blue); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 12px 0; }
+  .kp h4 { font-size: .95em; color: var(--blue); margin-bottom: 3px; }
+  .kp .summary { font-size: .85em; color: var(--light-text); margin-bottom: 8px; }
+
+  /* 答题区 */
+  .quiz-box { background: var(--accent); border: 1px dashed #e0d5c1; border-radius: 10px; padding: 14px 16px; }
+  .quiz-box .q-text { font-size: .9em; margin-bottom: 10px; }
+  .quiz-box .q-text strong { color: var(--orange); }
+  .q-tag { display: inline-block; background: var(--orange); color: white; font-size: .7em; padding: 1px 8px; border-radius: 10px; margin-right: 6px; }
+  .answer-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .answer-row input[type="text"], .answer-row input[type="number"] {
+    padding: 6px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: .95em;
+    width: 180px; font-family: inherit; transition: border-color .3s;
+  }
+  .answer-row input:focus { outline: none; border-color: var(--light-blue); }
+  .answer-row select { padding: 6px 10px; border: 2px solid #ddd; border-radius: 8px; font-size: .9em; font-family: inherit; }
+  .btn-check {
+    padding: 6px 16px; border: none; border-radius: 8px; font-size: .9em; cursor: pointer;
+    font-weight: bold; transition: .2s; font-family: inherit;
+    background: var(--light-blue); color: white;
+  }
+  .btn-check:hover { opacity: .85; transform: translateY(-1px); }
+  .btn-check:active { transform: scale(.96); }
+  .btn-check.done { background: var(--green); cursor: default; }
+  .btn-check.done:hover { opacity: 1; transform: none; }
+  .feedback { display: inline-block; font-size: .9em; font-weight: bold; min-width: 80px; }
+  .feedback.correct { color: var(--green); }
+  .feedback.wrong { color: var(--red); }
+  .feedback .hint-text { font-weight: normal; font-size: .85em; color: var(--light-text); }
+  .input-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .input-group span { font-size: .9em; color: var(--text); }
+
+  /* 综合实践 */
+  .practice-section { background: linear-gradient(135deg, #fef9e7, #fdebd0); border: 2px dashed var(--orange); border-radius: 14px; padding: 18px; margin: 20px 0; text-align: center; }
+  .practice-section h3 { color: var(--orange); font-size: 1.05em; margin-bottom: 6px; }
+
+  /* 答案区 */
+  .answer-section { max-width: 900px; margin: 40px auto 0; padding: 0 18px; }
+  .answer-toggle { display: block; width: 100%; padding: 16px; font-size: 1.05em; background: var(--red); color: white; border: none; border-radius: 12px; cursor: pointer; text-align: center; font-weight: bold; transition: .3s; letter-spacing: 2px; font-family: inherit; }
+  .answer-toggle:hover { background: #c0392b; }
+  .answer-content { background: var(--card); border-radius: 14px; margin-top: 14px; padding: 22px; display: none; box-shadow: 0 3px 15px rgba(0,0,0,.08); }
+  .answer-content.show { display: block; }
+  .answer-content h2 { text-align: center; color: var(--red); margin-bottom: 14px; }
+  .answer-item { background: #fef9e7; border-radius: 8px; padding: 9px 14px; margin: 7px 0; font-size: .88em; }
+  .answer-item strong { color: var(--orange); }
+
+  /* Footer */
+  .footer { text-align: center; padding: 30px 20px; color: var(--light-text); font-size: .82em; }
+
+  /* 响应式 */
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.3em; }
+    .toc ol { columns: 1; }
+    .answer-row input[type="text"], .answer-row input[type="number"] { width: 130px; }
+  }
+  @media print {
+    body { background: white; }
+    .progress-bar-wrap { position: static; }
+    .btn-check, .feedback { display: none; }
+    .answer-row input { border: 1px solid #ccc; background: white; }
+    .answer-content { display: block !important; }
+    .answer-toggle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== 进度条 ====== -->
+<div class="progress-bar-wrap">
+  <div class="info">
+    <span class="star">⭐</span>
+    <span class="score" id="scoreDisplay">0 / 29</span>
+    <span class="total">已完成 <span id="doneCount">0</span> 题</span>
+    <span id="starReward" style="font-size:1.2em;"></span>
+  </div>
+  <div class="progress-outer"><div class="progress-inner" id="progressBar"></div></div>
+</div>
+
+<!-- ====== 头部 ====== -->
+<div class="hero">
+  <h1>📐 三年级上册数学</h1>
+  <p class="sub">苏教版（2024新版）· 核心知识点与在线测试</p>
+  <p style="margin-top:6px;font-size:.85em;opacity:.8;">✏️ 直接在输入框里写答案，点「提交」看对错～</p>
+</div>
+
+<!-- ====== 目录 ====== -->
+<div class="toc">
+  <h2>📋 知识地图</h2>
+  <ol>
+    <li><a href="#u1">混合运算与数量关系（一）</a></li>
+    <li><a href="#u2">两、三位数乘一位数</a></li>
+    <li><a href="#u3">数据的收集与整理</a></li>
+    <li><a href="#u4">毫米、分米和千米</a></li>
+    <li><a href="#u5">平移、旋转和轴对称</a></li>
+    <li><a href="#u6">两、三位数除以一位数</a></li>
+    <li><a href="#u7">数量关系的分析（一）</a></li>
+    <li><a href="#u8">观察物体（二）</a></li>
+  </ol>
+</div>
+
+<div class="container">
+
+<!-- ================================================================ -->
+<!-- 第一单元 -->
+<!-- ================================================================ -->
+<div class="unit" id="u1">
+  <div class="unit-header u1"><div class="unit-num">1</div><h2>混合运算与数量关系（一）</h2></div>
+  <div class="unit-body">
+
+    <div class="kp">
+      <h4>📌 知识点1：乘法和加、减法的混合运算</h4>
+      <p class="summary">既有乘法又有加（减）法时，<b>先算乘法，再算加（减）法</b>。</p>
+      <div class="quiz-box" data-id="1">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>小明买了3本笔记本，每本8元，付了50元。应找回多少元？请列综合算式并写出答案。</strong></p>
+        <div class="answer-row">
+          <span>综合算式：</span><input type="text" class="ans-input" placeholder="例：50-3×8">
+          <span>答案：</span><input type="text" class="ans-input" placeholder="多少元？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">50-3×8|50-3*8</div>
+        <div style="display:none" class="correct-answers2">26|26元</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点2：除法和加、减法的混合运算</h4>
+      <p class="summary">既有除法又有加（减）法时，<b>先算除法，再算加（减）法</b>。</p>
+      <div class="quiz-box" data-id="2">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>把72个苹果平均分给8个小朋友，每个小朋友再分到3个橘子。每个小朋友一共分到多少个水果？（列综合算式）</strong></p>
+        <div class="answer-row">
+          <span>综合算式：</span><input type="text" class="ans-input" placeholder="例：72÷8+3">
+          <span>答案：</span><input type="text" class="ans-input" placeholder="多少个？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">72÷8+3|72/8+3</div>
+        <div style="display:none" class="correct-answers2">12|12个</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点3：含有小括号的两步混合运算</h4>
+      <p class="summary">有小括号时<b>先算括号里面</b>的，再算括号外面的。小括号能改变运算顺序。</p>
+      <div class="quiz-box" data-id="3">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>计算（45 − 18）÷ 3 = ？如果不加括号结果会是多少？</strong></p>
+        <div class="answer-row">
+          <span>加括号结果：</span><input type="text" class="ans-input" placeholder="？">
+          <span>不加括号结果：</span><input type="text" class="ans-input" placeholder="？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">9</div>
+        <div style="display:none" class="correct-answers2">39</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第二单元 -->
+<!-- ================================================================ -->
+<div class="unit" id="u2">
+  <div class="unit-header u2"><div class="unit-num">2</div><h2>两、三位数乘一位数</h2></div>
+  <div class="unit-body">
+
+    <div class="kp">
+      <h4>📌 知识点1：整十、整百数乘一位数的口算</h4>
+      <p class="summary">先用<b>0前面的数</b>去乘，再看乘数末尾有几个0，就在积的末尾<b>添上几个0</b>。</p>
+      <div class="quiz-box" data-id="4">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>口算：30×4=？ &nbsp; 200×6=？ &nbsp; 5000×3=？</strong></p>
+        <div class="answer-row">
+          <span>30×4=</span><input type="text" class="ans-input" placeholder="？">
+          <span>200×6=</span><input type="text" class="ans-input" placeholder="？">
+          <span>5000×3=</span><input type="text" class="ans-input" placeholder="？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">120</div>
+        <div style="display:none" class="correct-answers2">1200</div>
+        <div style="display:none" class="correct-answers3">15000</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点2：倍的认识</h4>
+      <p class="summary">求一个数是另一个数的几倍用<b>除法</b>；求一个数的几倍是多少用<b>乘法</b>。</p>
+      <div class="quiz-box" data-id="5">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>小红有5颗糖，小明的糖是小红的4倍。小明有几颗糖？两人一共有几颗？</strong></p>
+        <div class="answer-row">
+          <span>小明：</span><input type="text" class="ans-input" placeholder="？颗">
+          <span>一共：</span><input type="text" class="ans-input" placeholder="？颗">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">20|20颗</div>
+        <div style="display:none" class="correct-answers2">25|25颗</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点3：两、三位数乘一位数（不连续进位）</h4>
+      <p class="summary">从<b>个位</b>乘起，哪一位上乘得的积满几十就向前一位<b>进几</b>。</p>
+      <div class="quiz-box" data-id="6">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>列竖式计算：23×4=？ &nbsp; 124×3=？</strong></p>
+        <div class="answer-row">
+          <span>23×4=</span><input type="text" class="ans-input" placeholder="？">
+          <span>124×3=</span><input type="text" class="ans-input" placeholder="？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">92</div>
+        <div style="display:none" class="correct-answers2">372</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点4：连续进位乘法</h4>
+      <p class="summary">某一位相乘后加上进位又满几十，需<b>继续向前进位</b>，不可遗漏。</p>
+      <div class="quiz-box" data-id="7">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>列竖式计算：78×6=？ &nbsp; 256×4=？</strong></p>
+        <div class="answer-row">
+          <span>78×6=</span><input type="text" class="ans-input" placeholder="？">
+          <span>256×4=</span><input type="text" class="ans-input" placeholder="？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">468</div>
+        <div style="display:none" class="correct-answers2">1024</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点5：乘数中间或末尾有0的乘法</h4>
+      <p class="summary">乘数中间有0也要乘（0乘任何数都得0）；乘数末尾有0可以先不乘0，最后<b>补0</b>。</p>
+      <div class="quiz-box" data-id="8">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>列竖式计算：307×5=？ &nbsp; 240×7=？</strong></p>
+        <div class="answer-row">
+          <span>307×5=</span><input type="text" class="ans-input" placeholder="？">
+          <span>240×7=</span><input type="text" class="ans-input" placeholder="？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">1535</div>
+        <div style="display:none" class="correct-answers2">1680</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第三单元 -->
+<!-- ================================================================ -->
+<div class="unit" id="u3">
+  <div class="unit-header u3"><div class="unit-num">3</div><h2>数据的收集与整理</h2></div>
+  <div class="unit-body">
+
+    <div class="kp">
+      <h4>📌 知识点1：类别型数据的收集整理</h4>
+      <p class="summary">用<b>画"正"字</b>、打"√"等方法记录数据，再分类统计。</p>
+      <div class="quiz-box" data-id="9">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>三（1）班同学最喜欢的水果记录：苹果、香蕉、苹果、橘子、苹果、香蕉、香蕉、苹果、橘子、苹果。哪种水果最受欢迎？各有几票？</strong></p>
+        <div class="answer-row">
+          <span>最受欢迎：</span><input type="text" class="ans-input" placeholder="哪种水果？">
+          <span>苹果票数：</span><input type="text" class="ans-input" placeholder="？">
+          <span>香蕉票数：</span><input type="text" class="ans-input" placeholder="？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">苹果</div>
+        <div style="display:none" class="correct-answers2">5</div>
+        <div style="display:none" class="correct-answers3">3</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点2：数值型数据的收集整理</h4>
+      <p class="summary">对于数字类数据，可<b>分段统计</b>。先确定分段标准，再计数各段数据个数。</p>
+      <div class="quiz-box" data-id="10">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>10位同学跳绳1分钟成绩（个）：98、115、87、132、105、90、120、78、110、95。请分段统计人数：80以下、80~99、100~119、120及以上。</strong></p>
+        <div class="answer-row">
+          <span>80以下：</span><input type="text" class="ans-input" placeholder="？人">
+          <span>80~99：</span><input type="text" class="ans-input" placeholder="？人">
+          <span>100~119：</span><input type="text" class="ans-input" placeholder="？人">
+          <span>120及以上：</span><input type="text" class="ans-input" placeholder="？人">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">1|1人</div>
+        <div style="display:none" class="correct-answers2">4|4人</div>
+        <div style="display:none" class="correct-answers3">3|3人</div>
+        <div style="display:none" class="correct-answers4">2|2人</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点3：调查表的选择与设计</h4>
+      <p class="summary">设计调查表时要考虑<b>全面、不重复、不遗漏</b>。</p>
+      <div class="quiz-box" data-id="11">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>调查全班同学生日月份分布，以下哪个方案最合理？</strong></p>
+        <div class="answer-row">
+          <select class="ans-input" style="width:auto;min-width:200px;">
+            <option value="">-- 请选择 --</option>
+            <option value="A">A. 问几个好朋友就行</option>
+            <option value="B">B. 列出1~12月表格，逐一统计每位同学生日所在月份</option>
+            <option value="C">C. 只统计上半年生日的同学</option>
+          </select>
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">B</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第四单元 -->
+<!-- ================================================================ -->
+<div class="unit" id="u4">
+  <div class="unit-header u4"><div class="unit-num">4</div><h2>毫米、分米和千米</h2></div>
+  <div class="unit-body">
+
+    <div class="kp">
+      <h4>📌 知识点1：认识毫米（mm）</h4>
+      <p class="summary">1厘米 = <b>10毫米</b>。直尺上1小格是1毫米。</p>
+      <div class="quiz-box" data-id="12">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>一枚5角硬币厚约2毫米，5枚硬币摞在一起厚多少毫米？合多少厘米？</strong></p>
+        <div class="answer-row">
+          <span>厚度：</span><input type="text" class="ans-input" placeholder="？毫米">
+          <span>合：</span><input type="text" class="ans-input" placeholder="？厘米">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">10|10毫米</div>
+        <div style="display:none" class="correct-answers2">1|1厘米</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点2：认识分米（dm）</h4>
+      <p class="summary">1分米 = <b>10厘米</b>，1米 = <b>10分米</b>。</p>
+      <div class="quiz-box" data-id="13">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>一根绳子长2米，剪下8分米做跳绳。还剩多少分米？合多少厘米？</strong></p>
+        <div class="answer-row">
+          <span>还剩：</span><input type="text" class="ans-input" placeholder="？分米">
+          <span>合：</span><input type="text" class="ans-input" placeholder="？厘米">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">12|12分米</div>
+        <div style="display:none" class="correct-answers2">120|120厘米</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点3：认识千米（km）</h4>
+      <p class="summary">1千米 = <b>1000米</b>。用于计量较长路程。</p>
+      <div class="quiz-box" data-id="14">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>小丽家到学校距离2千米，她已经走了800米，还要走多少米才能到学校？</strong></p>
+        <div class="answer-row">
+          <span>还要走：</span><input type="text" class="ans-input" placeholder="？米">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">1200|1200米</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点4：长度单位换算</h4>
+      <p class="summary">1km=1000m，1m=10dm=100cm=<b>1000mm</b>。大→小乘进率，小→大除以进率。</p>
+      <div class="quiz-box" data-id="15">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>填空：3千米=___米 &nbsp; 50毫米=___厘米 &nbsp; 6分米=___厘米 &nbsp; 4000米=___千米</strong></p>
+        <div class="answer-row">
+          <span>3km=</span><input type="text" class="ans-input" placeholder="？m" style="width:60px;">
+          <span>50mm=</span><input type="text" class="ans-input" placeholder="？cm" style="width:60px;">
+          <span>6dm=</span><input type="text" class="ans-input" placeholder="？cm" style="width:60px;">
+          <span>4000m=</span><input type="text" class="ans-input" placeholder="？km" style="width:60px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">3000</div>
+        <div style="display:none" class="correct-answers2">5</div>
+        <div style="display:none" class="correct-answers3">60</div>
+        <div style="display:none" class="correct-answers4">4</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第五单元 -->
+<!-- ================================================================ -->
+<div class="unit" id="u5">
+  <div class="unit-header u5"><div class="unit-num">5</div><h2>平移、旋转和轴对称</h2></div>
+  <div class="unit-body">
+
+    <div class="kp">
+      <h4>📌 知识点1：认识平移</h4>
+      <p class="summary">物体沿<b>直线</b>运动，形状大小不变，只是位置改变。</p>
+      <div class="quiz-box" data-id="16">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>下列哪些是平移现象？（多选）①火车在笔直轨道上行驶 ②风扇转动 ③升国旗 ④荡秋千</strong></p>
+        <div class="answer-row">
+          <span>平移的是（填序号）：</span><input type="text" class="ans-input" placeholder="例：①③">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">①③|1,3|13|①,③|1和3|①和③</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点2：认识旋转</h4>
+      <p class="summary">物体绕一个<b>固定的点</b>或<b>轴</b>转动。</p>
+      <div class="quiz-box" data-id="17">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>下列哪些是旋转现象？（多选）①方向盘转动 ②拉抽屉 ③拧水龙头 ④电梯运行</strong></p>
+        <div class="answer-row">
+          <span>旋转的是（填序号）：</span><input type="text" class="ans-input" placeholder="例：①③">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">①③|1,3|13|①,③|1和3|①和③</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点3：认识轴对称图形</h4>
+      <p class="summary">对折后两边<b>完全重合</b>的图形。折痕所在直线叫<b>对称轴</b>。</p>
+      <div class="quiz-box" data-id="18">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>正方形有几条对称轴？圆形呢？等腰三角形呢？</strong></p>
+        <div class="answer-row">
+          <span>正方形：</span><input type="text" class="ans-input" placeholder="？条" style="width:60px;">
+          <span>圆形：</span><input type="text" class="ans-input" placeholder="？条" style="width:80px;">
+          <span>等腰三角形：</span><input type="text" class="ans-input" placeholder="？条" style="width:60px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">4|4条</div>
+        <div style="display:none" class="correct-answers2">无数|无数条</div>
+        <div style="display:none" class="correct-answers3">1|1条</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第六单元 -->
+<!-- ================================================================ -->
+<div class="unit" id="u6">
+  <div class="unit-header u6"><div class="unit-num">6</div><h2>两、三位数除以一位数</h2></div>
+  <div class="unit-body">
+
+    <div class="kp">
+      <h4>📌 知识点1：整十、整百数除以一位数的口算</h4>
+      <p class="summary">用0前面的数除以一位数，再在商的末尾<b>添上相应个数的0</b>。</p>
+      <div class="quiz-box" data-id="19">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>口算：60÷3=？ &nbsp; 800÷4=？ &nbsp; 9000÷3=？</strong></p>
+        <div class="answer-row">
+          <span>60÷3=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <span>800÷4=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <span>9000÷3=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">20</div>
+        <div style="display:none" class="correct-answers2">200</div>
+        <div style="display:none" class="correct-answers3">3000</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点2：两位数除以一位数（首位能整除）</h4>
+      <p class="summary">从<b>高位</b>除起，除到哪一位商就写在那一位上面。</p>
+      <div class="quiz-box" data-id="20">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>列竖式计算：84÷4=？ &nbsp; 96÷3=？</strong></p>
+        <div class="answer-row">
+          <span>84÷4=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <span>96÷3=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">21</div>
+        <div style="display:none" class="correct-answers2">32</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点3：两位数除以一位数（首位不能整除）</h4>
+      <p class="summary">首位不够除时和<b>下一位合起来</b>再除，余数必须比除数小。</p>
+      <div class="quiz-box" data-id="21">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>列竖式计算：52÷4=？ &nbsp; 75÷5=？</strong></p>
+        <div class="answer-row">
+          <span>52÷4=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <span>75÷5=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">13</div>
+        <div style="display:none" class="correct-answers2">15</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点4：三位数除以一位数</h4>
+      <p class="summary">从<b>最高位</b>除起。最高位不够除就看<b>前两位</b>。商中间或末尾可能出现0。</p>
+      <div class="quiz-box" data-id="22">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>列竖式计算：309÷3=？ &nbsp; 620÷5=？</strong></p>
+        <div class="answer-row">
+          <span>309÷3=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <span>620÷5=</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">103</div>
+        <div style="display:none" class="correct-answers2">124</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点5：除法的验算</h4>
+      <p class="summary">没有余数：<b>商×除数=被除数</b>；有余数：<b>商×除数+余数=被除数</b>。</p>
+      <div class="quiz-box" data-id="23">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>计算并验算：137÷5，商是多少？余数是多少？</strong></p>
+        <div class="answer-row">
+          <span>商：</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <span>余数：</span><input type="text" class="ans-input" placeholder="？" style="width:60px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">27</div>
+        <div style="display:none" class="correct-answers2">2</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第七单元 -->
+<!-- ================================================================ -->
+<div class="unit" id="u7">
+  <div class="unit-header u7"><div class="unit-num">7</div><h2>数量关系的分析（一）</h2></div>
+  <div class="unit-body">
+
+    <div class="kp">
+      <h4>📌 知识点1：从条件出发分析数量关系</h4>
+      <p class="summary">从<b>已知条件出发</b>，一步步推导出未知量。可用<b>线段图</b>辅助。</p>
+      <div class="quiz-box" data-id="24">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>果园有桃树120棵，梨树比桃树少35棵，苹果树是梨树的2倍。苹果树有多少棵？</strong></p>
+        <div class="answer-row">
+          <span>苹果树：</span><input type="text" class="ans-input" placeholder="？棵">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">170|170棵</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点2：从问题出发分析数量关系</h4>
+      <p class="summary">从<b>问题倒推</b>：要求什么→需要知道什么→缺少的条件怎么求→追溯到已知。</p>
+      <div class="quiz-box" data-id="25">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>妈妈买衣服和裤子共花280元，衣服价格是裤子的3倍。衣服和裤子各多少元？</strong></p>
+        <div class="answer-row">
+          <span>裤子：</span><input type="text" class="ans-input" placeholder="？元" style="width:80px;">
+          <span>衣服：</span><input type="text" class="ans-input" placeholder="？元" style="width:80px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">70|70元</div>
+        <div style="display:none" class="correct-answers2">210|210元</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点3：列表法整理条件和问题</h4>
+      <p class="summary">信息较多时，用<b>列表</b>整理已知条件，让数量关系一目了然。</p>
+      <div class="quiz-box" data-id="26">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>文具店：铅笔2元/支，钢笔8元/支，橡皮1元/块。小明买3支铅笔、1支钢笔、2块橡皮，付20元，应找回多少元？</strong></p>
+        <div class="answer-row">
+          <span>应找回：</span><input type="text" class="ans-input" placeholder="？元">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">4|4元</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第八单元 -->
+<!-- ================================================================ -->
+<div class="unit" id="u8">
+  <div class="unit-header u8"><div class="unit-num">8</div><h2>观察物体（二）</h2></div>
+  <div class="unit-body">
+
+    <div class="kp">
+      <h4>📌 知识点1：从不同位置观察同一个物体</h4>
+      <p class="summary">从<b>正面、侧面、上面</b>等不同位置观察，看到的形状可能<b>不同</b>。</p>
+      <div class="quiz-box" data-id="27">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>从一个方向观察一个长方体，最多能看到几个面？</strong></p>
+        <div class="answer-row">
+          <span>最多能看到：</span><input type="text" class="ans-input" placeholder="？个面" style="width:80px;">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">3|3个|3个面</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点2：根据视图辨认物体</h4>
+      <p class="summary">根据从某个方向看到的形状，结合其他条件<b>想象和推断</b>物体样子。</p>
+      <div class="quiz-box" data-id="28">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>从正面看是正方形，从上面看也是正方形。这个物体可能是什么？请写出两种。</strong></p>
+        <div class="answer-row">
+          <span>可能①：</span><input type="text" class="ans-input" placeholder="？">
+          <span>可能②：</span><input type="text" class="ans-input" placeholder="？">
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">正方体</div>
+        <div style="display:none" class="correct-answers2">长方体|特殊长方体</div>
+      </div>
+    </div>
+
+    <div class="kp">
+      <h4>📌 知识点3：用正方体搭建立体图形并观察</h4>
+      <p class="summary">用同样的小正方体拼搭，从不同方向观察，培养<b>空间观念</b>。</p>
+      <div class="quiz-box" data-id="29">
+        <p class="q-text"><span class="q-tag">测一测</span><strong>用4个相同的小正方体搭成一个长方体（一字排开），从正面看是什么形状？</strong></p>
+        <div class="answer-row">
+          <select class="ans-input" style="width:auto;min-width:200px;">
+            <option value="">-- 请选择 --</option>
+            <option value="A">A. 1个正方形</option>
+            <option value="B">B. 一排4个正方形（横向）</option>
+            <option value="C">C. 2×2的四个正方形</option>
+          </select>
+          <button class="btn-check" onclick="checkAnswer(this)">✅ 提交</button>
+          <span class="feedback"></span>
+        </div>
+        <div style="display:none" class="correct-answers">B</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 综合实践 -->
+<!-- ================================================================ -->
+<div class="practice-section">
+  <h3>🎯 综合实践活动</h3>
+  <p style="font-size:.9em;">
+    <b>① 一天的时间：</b>认识钟表，计算经过时间，学会合理安排作息。<br>
+    <b>② 曹冲称象的故事：</b>了解质量单位，认识各种秤，体会等量代换思想。<br>
+    <b>③ 了解你的好朋友：</b>设计调查方案，收集、整理、分析数据。<br>
+    <b>④ 间隔排列：</b>探索一一间隔排列的规律（两端相同→多1；两端不同→一样多）。
+  </p>
+</div>
+
+</div><!-- .container -->
+
+<!-- ================================================================ -->
+<!-- 答案区 -->
+<!-- ================================================================ -->
+<div class="answer-section">
+  <button class="answer-toggle" onclick="toggleAnswers()">
+    🔒 家长专区：全部参考答案（小朋友做完再打开！）
+  </button>
+  <div class="answer-content" id="answers">
+    <h2>📝 参考答案大全</h2>
+    <p style="text-align:center;color:var(--red);margin-bottom:14px;">⚠️ 请确认所有题目都认真做完后再看答案！</p>
+
+    <div class="answer-item"><strong>U1-1：</strong>50 − 3 × 8 = 50 − 24 = <b>26（元）</b>。先算乘法，再算减法。</div>
+    <div class="answer-item"><strong>U1-2：</strong>72 ÷ 8 + 3 = 9 + 3 = <b>12（个）</b>。先算除法，再算加法。</div>
+    <div class="answer-item"><strong>U1-3：</strong>加括号：(45−18)÷3=<b>9</b>；不加括号：45−18÷3=45−6=<b>39</b>。结果完全不同！</div>
+
+    <div class="answer-item"><strong>U2-1：</strong>30×4=<b>120</b>；200×6=<b>1200</b>；5000×3=<b>15000</b>。</div>
+    <div class="answer-item"><strong>U2-2：</strong>小明：5×4=<b>20颗</b>；一共：5+20=<b>25颗</b>。</div>
+    <div class="answer-item"><strong>U2-3：</strong>23×4=<b>92</b>；124×3=<b>372</b>。</div>
+    <div class="answer-item"><strong>U2-4：</strong>78×6=<b>468</b>（6×8=48进4，6×7+4=46）；256×4=<b>1024</b>。</div>
+    <div class="answer-item"><strong>U2-5：</strong>307×5=<b>1535</b>（0也要乘）；240×7=<b>1680</b>（先24×7=168，补0）。</div>
+
+    <div class="answer-item"><strong>U3-1：</strong>苹果5票（正），香蕉3票，橘子2票。<b>苹果最受欢迎</b>。</div>
+    <div class="answer-item"><strong>U3-2：</strong>80以下1人；80~99：4人；100~119：3人；120及以上：2人。</div>
+    <div class="answer-item"><strong>U3-3：</strong><b>B最合理</b>——需要列出全部12个月逐一统计，确保不遗漏。</div>
+
+    <div class="answer-item"><strong>U4-1：</strong>2×5=<b>10毫米</b>=<b>1厘米</b>。</div>
+    <div class="answer-item"><strong>U4-2：</strong>2米=20分米；20−8=<b>12分米</b>=<b>120厘米</b>。</div>
+    <div class="answer-item"><strong>U4-3：</strong>2千米=2000米；2000−800=<b>1200米</b>。</div>
+    <div class="answer-item"><strong>U4-4：</strong>3km=<b>3000</b>m；50mm=<b>5</b>cm；6dm=<b>60</b>cm；4000m=<b>4</b>km。</div>
+
+    <div class="answer-item"><strong>U5-1：</strong>平移：<b>①和③</b>（火车直线行驶、升国旗）。②④是转动/摆动。</div>
+    <div class="answer-item"><strong>U5-2：</strong>旋转：<b>①和③</b>（方向盘转动、拧水龙头）。②④是平移。</div>
+    <div class="answer-item"><strong>U5-3：</strong>正方形<b>4条</b>；圆形<b>无数条</b>；等腰三角形<b>1条</b>。</div>
+
+    <div class="answer-item"><strong>U6-1：</strong>60÷3=<b>20</b>；800÷4=<b>200</b>；9000÷3=<b>3000</b>。</div>
+    <div class="answer-item"><strong>U6-2：</strong>84÷4=<b>21</b>；96÷3=<b>32</b>。</div>
+    <div class="answer-item"><strong>U6-3：</strong>52÷4=<b>13</b>；75÷5=<b>15</b>。</div>
+    <div class="answer-item"><strong>U6-4：</strong>309÷3=<b>103</b>；620÷5=<b>124</b>。</div>
+    <div class="answer-item"><strong>U6-5：</strong>137÷5=<b>27余2</b>。验算：27×5+2=135+2=137✓。</div>
+
+    <div class="answer-item"><strong>U7-1：</strong>梨树120−35=85棵；苹果树85×2=<b>170棵</b>。</div>
+    <div class="answer-item"><strong>U7-2：</strong>4份=280元，1份=<b>70元（裤子）</b>，衣服=<b>210元</b>。</div>
+    <div class="answer-item"><strong>U7-3：</strong>3×2+1×8+2×1=16元；20−16=<b>4元</b>。</div>
+
+    <div class="answer-item"><strong>U8-1：</strong>最多<b>3个面</b>（从顶点/角的位置观察）。</div>
+    <div class="answer-item"><strong>U8-2：</strong>①<b>正方体</b>；②底面为正方形的<b>长方体</b>（高=底面边长时）。</div>
+    <div class="answer-item"><strong>U8-3：</strong><b>B</b>——一字排开从正面看是一排4个正方形（横向长方形轮廓）。</div>
+  </div>
+</div>
+
+<!-- ====== Footer ====== -->
+<div class="footer">
+  <p>📐 苏教版（2024新版）· 三年级上册数学 | 知识点整理 & 在线测试：CC · AI助理</p>
+  <p>💡 提示：学完知识点 → 独立做题 → 提交看结果 → 全部完成再看答案！</p>
+</div>
+
+<!-- ================================================================ -->
+<!-- JavaScript：交互判题逻辑 -->
+<!-- ================================================================ -->
+<script>
+// 全局状态
+let totalQuestions = 29;
+let answeredSet = new Set(); // 已答对的题目ID集合
+
+function normalize(str) {
+  return str.replace(/\s+/g, '').replace(/（/g,'(').replace(/）/g,')').replace(/，/g,',').toLowerCase();
+}
+
+function checkAnswer(btn) {
+  const quizBox = btn.closest('.quiz-box');
+  const inputs = quizBox.querySelectorAll('.ans-input');
+  const feedbackEl = quizBox.querySelector('.feedback');
+  const qid = quizBox.dataset.id;
+
+  // 获取正确答案列表
+  const correctDivs = quizBox.querySelectorAll('[class^="correct-answers"]');
+  let correctGroups = [];
+  correctDivs.forEach(div => {
+    let text = div.textContent.trim();
+    correctGroups.push(text.split('|').map(s => normalize(s)));
+  });
+
+  // 如果没有多个答案组，尝试把所有答案放在一组
+  if (correctGroups.length === 1 && inputs.length > 1) {
+    // 所有输入共用一个答案
+  }
+
+  let allCorrect = true;
+  let feedbackHtml = '';
+
+  for (let i = 0; i < inputs.length; i++) {
+    let userAns = '';
+    if (inputs[i].tagName === 'SELECT') {
+      userAns = inputs[i].value;
+    } else {
+      userAns = inputs[i].value;
+    }
+    userAns = normalize(userAns);
+
+    if (!userAns) {
+      allCorrect = false;
+      continue;
+    }
+
+    // 获取该输入对应的正确答案组
+    let acceptable = (i < correctGroups.length) ? correctGroups[i] : correctGroups[correctGroups.length - 1];
+    if (!acceptable || acceptable.length === 0 || acceptable[0] === '') {
+      acceptable = correctGroups[0];
+    }
+
+    if (!acceptable.includes(userAns)) {
+      allCorrect = false;
+    }
+  }
+
+  // 检查是否全部填写
+  let allFilled = true;
+  inputs.forEach(inp => {
+    let v = inp.tagName === 'SELECT' ? inp.value : inp.value.trim();
+    if (!v) allFilled = false;
+  });
+
+  if (!allFilled) {
+    feedbackEl.className = 'feedback wrong';
+    feedbackEl.innerHTML = '❌ 请填写所有答案再提交哦～';
+    return;
+  }
+
+  if (allCorrect) {
+    feedbackEl.className = 'feedback correct';
+    feedbackEl.innerHTML = '🎉 太棒了，回答完全正确！';
+    btn.classList.add('done');
+    btn.textContent = '✔ 已通过';
+    btn.disabled = true;
+    // 禁用输入
+    inputs.forEach(inp => { inp.disabled = true; inp.style.background = '#e8f8f5'; inp.style.borderColor = '#27ae60'; });
+
+    // 记录答对
+    if (!answeredSet.has(qid)) {
+      answeredSet.add(qid);
+      updateProgress();
+    }
+  } else {
+    feedbackEl.className = 'feedback wrong';
+    // 构建提示
+    let hintParts = [];
+    correctGroups.forEach((group, idx) => {
+      if (group.length > 0 && group[0] !== '') {
+        hintParts.push(group[0]);
+      }
+    });
+    feedbackEl.innerHTML = '❌ 还不对哦，再想想看～ <span class="hint-text">（提示：答案涉及 ' + hintParts.join(' / ') + '）</span>';
+    // 让输入框闪烁提示
+    inputs.forEach(inp => {
+      if (inp.tagName !== 'SELECT') {
+        inp.style.borderColor = '#e74c3c';
+        setTimeout(() => { if (!inp.disabled) inp.style.borderColor = '#ddd'; }, 1500);
+      }
+    });
+  }
+}
+
+function updateProgress() {
+  let done = answeredSet.size;
+  let pct = Math.round(done / totalQuestions * 100);
+  document.getElementById('doneCount').textContent = done;
+  document.getElementById('scoreDisplay').textContent = done + ' / ' + totalQuestions;
+  document.getElementById('progressBar').style.width = pct + '%';
+
+  // 星级奖励
+  let stars = '';
+  if (pct >= 90) stars = '🌟🌟🌟 学霸级别！';
+  else if (pct >= 60) stars = '🌟🌟 继续加油！';
+  else if (pct >= 30) stars = '🌟 好的开始！';
+  document.getElementById('starReward').textContent = stars;
+
+  // 全部完成彩蛋
+  if (done >= totalQuestions) {
+    document.getElementById('starReward').textContent = '🏆🏆🏆 全部通关！你太厉害了！🏆🏆🏆';
+    document.querySelector('.progress-inner').style.background = 'linear-gradient(90deg, #f39c12, #e74c3c, #8e44ad)';
+  }
+}
+
+function toggleAnswers() {
+  const content = document.getElementById('answers');
+  const btn = document.querySelector('.answer-toggle');
+  if (content.classList.contains('show')) {
+    content.classList.remove('show');
+    btn.innerHTML = '🔒 家长专区：全部参考答案（小朋友做完再打开！）';
+  } else {
+    content.classList.add('show');
+    btn.innerHTML = '🔓 答案已打开（确认所有题目都做完了吗？）';
+  }
+}
+
+// 初始化
+updateProgress();
+</script>
+
+</body>
+</html>
